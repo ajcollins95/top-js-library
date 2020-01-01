@@ -18,25 +18,22 @@ function addBookToLibrary(book) {
     myLibrary.push(book);
 }
 
-function makeDetailNode(book) {
-    var newList = document.createElement('ul')
+function makeTableRow(book) {
+    //make new row
+    var row = document.createElement('tr')
 
-    var author = document.createElement('li')
-    author.textContent = 'by ' + book.author
-    newList.appendChild(author)
-
-    var pages = document.createElement('li')
-    pages.textContent = book.pages + ' pages'
-    newList.appendChild(pages)
-
-    var read = document.createElement('li')
-    read.textContent = (book.read == 'y') ? 'already read' : 'not read yet'
-    newList.appendChild(read)
-    
-    return newList
-
+    Object.keys(book).forEach(function (key) {
+        //don't add anything for the info function
+        if (key != 'info') {
+            console.log(key)
+            var col = document.createElement('td')
+            col.textContent = book[key]
+            row.appendChild(col)
+        }
+    })
+    return row;
 }
-
+/*
 function newBookClick() {
     //makes form visible and hides new book button
     let form = document.getElementById('myForm')
@@ -58,15 +55,13 @@ function submission() {
     console.log(myLibrary)
     alert(book.title)
 }
+*/
 
 var render = function (parent, library) {
-    var newBook = document.getElementById('btn')
-    newBook.addEventListener('click', newBookClick)
+    //var newBook = document.getElementById('btn')
+    //newBook.addEventListener('click', newBookClick)
     library.forEach(function (book) {
-        var li = document.createElement('li')
-        li.textContent = book.title
-        parent.appendChild(li)
-        parent.appendChild(makeDetailNode(book))
+        parent.appendChild(makeTableRow(book))
 
     })
 };
@@ -79,7 +74,7 @@ addBookToLibrary(a)
 addBookToLibrary(b)
 addBookToLibrary(c)
 
-console.log(myLibrary)
+console.log(myLibrary[0]['title'])
 
 
-render(document.getElementById('list'), myLibrary)
+render(document.getElementById('table'), myLibrary)
