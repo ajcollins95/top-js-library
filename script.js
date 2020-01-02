@@ -1,10 +1,10 @@
 function init() {
-    var firstTime = localStorage.getItem("first_time");
+    let myLibrary = localStorage.getItem("myLibrary")
     // first time loaded!
-    if(!firstTime) {
+    if(!myLibrary) {
         console.log('First Time!')
-        localStorage.setItem("first_time","1");
-        myLibrary = [];
+        let myLibrary = []
+        localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
 
         let a = new Book('East of Eden', 'John Steinbeck', 394, 'y')
         let b = new Book('Surprised by Joy', 'C.S. Lewis', 182, 'n')
@@ -13,8 +13,7 @@ function init() {
         addBookToLibrary(a)
         addBookToLibrary(b)
         addBookToLibrary(c)
-
-
+        
     }
 }
 
@@ -34,10 +33,13 @@ function Book(title, author, pages, read) {
 
 function addBookToLibrary(book) {
     //adds a book to the library
-    book.index = myLibrary.length
-    myLibrary.push(book);
-    localStorage.setItem("library",myLibrary)
+    let storedLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+    console.log(storedLibrary)
+    alert('I stopped')
+    book.index = storedLibrary.length
+    storedLibrary.push(book);
     console.log(book.index)
+    localStorage.setItem("myLibrary",JSON.stringify(storedLibrary))
 }
 
 function makefarmRow(book) {
@@ -88,10 +90,12 @@ function submission() {
 }
 */
 
-var render = function (parent, library) {
+function render() {
+    let parent = document.getElementById('table')
+    let storedLibrary = JSON.parse(localStorage.getItem("myLibrary"));
     //var newBook = document.getElementById('btn')
     //newBook.addEventListener('click', newBookClick)
-    library.forEach(function (book) {
+    storedLibrary.forEach(function (book) {
         parent.appendChild(makeBookRow(book))
 
     })
@@ -101,10 +105,9 @@ var render = function (parent, library) {
 
 init()
 
-
 //console.log(myLibrary[0]['title'])
 
-render(document.getElementById('table'), myLibrary)
+render()
 setup()
 //document.getElementById('submit').addEventListener('click', submission)
 
