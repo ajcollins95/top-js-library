@@ -27,15 +27,21 @@
             </tr>
             <tfoot>
                 <tr>
-                    <th> <input type="text" name="title" form="my_form" /> </th>
-                    <th> <input type="text" name="author" form="my_form" /> </th>
-                    <th> <input type="text" name="pages" form="my_form" /> </th>
-                    <th> <input type="text" name="read" form="my_form" /> </th>
+                    <th> <input type="text" name="title" form="my_form"
+                          placeholder='Title'/></th>
+                    <th> <input type="text" name="author" form="my_form"
+                          placeholder='First Last' /></th>
+                    <th> <input type="text" name="pages" form="my_form"
+                          placeholder='0' /></th>
+                    <th> <input type="text" name="read" form="my_form"
+                          placeholder='yes/no' /></th>
                 </tr>
             </tfoot>
         </table>
-        <button type="button" form="my_form">ok</button>
-
+        <input type="submit" value="Submit" form="my_form">
+        <!--
+        <button type="button" form="my_form">Add Book</button>
+        -->
         
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
