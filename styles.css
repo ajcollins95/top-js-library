@@ -18,8 +18,21 @@ input {
   border: 2px solid black;
 }
   
-  input:invalid {
+input:invalid {
   border: 2px  red;
 }
+
+.del {
+  color: red;
+}
+
+.tgl {
+  color: green;
+}
+
+
+
+
+
 
 

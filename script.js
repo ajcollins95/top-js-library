@@ -47,13 +47,25 @@ function addBookToLibrary(book) {
 function makeBookRow(book) {
     //make new row of book data
     var row = document.createElement('tr')
-    let validKeys = ['title','author','pages','read']
-
+    let validKeys = ['title','author','pages','read','del','toggle']
     validKeys.forEach(function (key) {
         var col = document.createElement('td')
-        col.textContent = book[key]
+        if (key == 'del') {
+            let btn = document.createElement('button')
+            btn.classList.add('del')
+            btn.innerText = 'X'
+            col.appendChild(btn)
+        }
+        else if (key == 'toggle') {
+            let btn = document.createElement('button')
+            btn.classList.add('tgl')
+            btn.innerText = 'R'
+            col.appendChild(btn)
+        }
+        else {
+            col.textContent = book[key]
+        }
         row.appendChild(col)
-        
     })
     return row;
 }
