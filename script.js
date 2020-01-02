@@ -18,7 +18,23 @@ function addBookToLibrary(book) {
     myLibrary.push(book);
 }
 
-function makeTableRow(book) {
+function makeBookRow(book) {
+    //make new row about a book
+    var row = document.createElement('tr')
+
+    Object.keys(book).forEach(function (key) {
+        //don't add anything for the info function
+        if (key != 'info') {
+            //console.log(key)
+            var col = document.createElement('td')
+            col.textContent = book[key]
+            row.appendChild(col)
+        }
+    })
+    return row;
+}
+
+function makeFormRow(book) {
     //make new row
     var row = document.createElement('tr')
 
@@ -61,9 +77,13 @@ var render = function (parent, library) {
     //var newBook = document.getElementById('btn')
     //newBook.addEventListener('click', newBookClick)
     library.forEach(function (book) {
-        parent.appendChild(makeTableRow(book))
+        parent.appendChild(makeBookRow(book))
 
     })
+    /*
+    let bookForm = document.getElementById('newBook')
+    bookForm.style.display = 'block'
+    parent.appendChild(bookForm) */
 };
 
 let a = new Book('East of Eden', 'John Steinbeck', 394, 'y')
