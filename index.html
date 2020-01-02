@@ -31,16 +31,29 @@
                           placeholder='Title'/></th>
                     <th> <input type="text" name="author" form="my_form"
                           placeholder='First Last' /></th>
-                    <th> <input type="text" name="pages" form="my_form"
-                          placeholder='0' /></th>
-                    <th> <input type="text" name="read" form="my_form"
-                          placeholder='yes/no' /></th>
+                    <th> <input type="number" name="pages" form="my_form"
+                          value='1' /></th>
+                    <th> <input type="checkbox" name="read" form="my_form"/></th>
                 </tr>
             </tfoot>
         </table>
         <input type="submit" value="Submit" form="my_form">
         <!--
         <button type="button" form="my_form">Add Book</button>
+        var signupForm = document.getElementsByName('signup')[0];
+        signupForm.addEventListener('submit', function(event){
+            var requireds = document.getElementsByClassName('required');
+            for (var i = 0; i < requireds.length; i++){
+                if(requireds[i].value.length == 0){
+                    event.preventDefault(); //stop the form from submitting
+                    var errorMessage = requireds[i].getAttribute('data-message');
+                    var promptLabel = document.getElementsById(requireds[i].getAttribute('data-prompt'))[0];
+                    promptLabel.innerHTML = errorMessage;
+                }
+            }
+            event.preventDefault(); //stop the form from submitting
+            return errorMessage.length == 0;  //for older browsers, false if there's an error
+        });
         -->
         
         <!--[if lt IE 7]>
