@@ -13,3 +13,13 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
   }
+
+input {
+  border: 2px solid black;
+}
+  
+  input:invalid {
+  border: 2px  red;
+}
+
+

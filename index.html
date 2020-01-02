@@ -28,16 +28,16 @@
             <tfoot>
                 <tr>
                     <th> <input type="text" name="title" form="my_form"
-                          placeholder='Title'/></th>
+                          placeholder='Title' required/></th>
                     <th> <input type="text" name="author" form="my_form"
-                          placeholder='First Last' /></th>
+                          placeholder='Author' required /></th>
                     <th> <input type="number" name="pages" form="my_form"
-                          value='1' /></th>
+                          placeholder='1' min='1'/></th>
                     <th> <input type="checkbox" name="read" form="my_form"/></th>
                 </tr>
             </tfoot>
         </table>
-        <input type="submit" value="Submit" form="my_form">
+        <input type="submit" value="Submit" form="my_form" id='submit'>
         <!--
         <button type="button" form="my_form">Add Book</button>
         var signupForm = document.getElementsByName('signup')[0];
