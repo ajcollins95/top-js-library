@@ -1,13 +1,11 @@
 function init() {
     //initializes library data
-    let myLibrary = localStorage.getItem("myLibrary")
-    document.getElementsByTagName('form')[0].addEventListener('submit', onSubmit)
+    let library = localStorage.getItem("myLibrary")
 
     // first time loaded!
-    if(!myLibrary) {
+    if(!library) {
         console.log('First Time!')
-        let storedLibrary = []
-        localStorage.setItem("myLibrary",JSON.stringify(storedLibrary))
+    
         let a = new Book('East of Eden', 'John Steinbeck', 394, 'on')
         let b = new Book('Surprised by Joy', 'C.S. Lewis', 182, 'off')
         let c = new Book('Man\'s Search for Meaning', 'Viktor Frankl', 246, 'on')
@@ -16,19 +14,18 @@ function init() {
         addBookToLibrary(b)
         addBookToLibrary(c)
 
-        //alert('books added')
-
     }
-    myLibrary = loadStoredLibrary()
-    render(myLibrary)
+    else {
+        loadStoredLibrary()
+    }
 }
 
 function Book(title, author, pages, read) {
     //Book object prototype
-    this.title = title
-    this.author = author
-    this.pages = pages 
-    this.read = read == 'on' ? 'Yes' : 'No'
+    this.title = title,
+    this.author = author,
+    this.pages = pages,
+    this.read = (read == 'on' || read == 'Yes') ? 'Yes' : 'No',
 
     this.info = function() {
         let readText = (read == 'y') ? 'already read' : 'not read yet'
@@ -36,48 +33,76 @@ function Book(title, author, pages, read) {
     }
 
     this.toggle = function() {
-        //alert('Monkey milk')
-        this.read = this.read == 'Yes' ? 'No' : 'Yes' 
+        this.read = (this.read == 'Yes') ? 'No' : 'Yes'
     }
+
 }
 
 function loadStoredLibrary() {
+    //Gets JSON data and creates a new library with active objects
     let storedLibrary = JSON.parse(localStorage.getItem("myLibrary"))
-    let library = []
     storedLibrary.forEach(function (bookData) {
         let book = new Book(bookData['title'], bookData['author'], 
                             bookData['pages'], bookData['read'])
-        library.push(book)
-        //alert(book.info())
+        addBookToLibrary(book)
     })
-    return library
 }
 
 function storeLibrary() {
-
+    //saves library
+    localStorage.setItem("myLibrary",JSON.stringify(myLibrary))
 }
 
 
 function addBookToLibrary(book) {
     //adds a book to the library
-    let library = loadStoredLibrary()
-    book.index = library.length
+    book.index = myLibrary.length
     console.log(book.info())
-    library.push(book);
-    console.log(book.index)
-    localStorage.setItem("myLibrary",JSON.stringify(library))
+    myLibrary.push(book);
+    console.log(myLibrary[myLibrary.length-1].index)
+    storeLibrary() 
 }
 
 function addListener(book, btn) {
-    let type = btn.classList
+    let type = btn.classList[0]
+    btn.classList.add(book.index)
     if (type == 'del') {
-        //class is del
-
+        //delete button
+        btn.addEventListener('click', deleteBook)
     }
     else {
-        //class is tgl
-        btn.addEventListener('click', book.toggle)
+        //toggle button
+        btn.addEventListener('click', toggleBookStatus)
     }
+}
+
+function toggleBookStatus(e) {
+    //deletes book from DOM and library
+    let index = e.target.classList[1]
+    let row = e.target.parentNode.parentNode
+    let book = myLibrary[index]
+    book.toggle()
+    row.cells[3].innerText = book.read
+    storeLibrary() 
+}
+
+function deleteBook(e) {
+    //deletes book from DOM and library
+    let index = e.target.classList[1]
+    let row = e.target.parentNode.parentNode
+    let confirmation = prompt("Click to confirm book removal")
+    if (confirmation != null) {
+        removeFromLibrary(index)
+        row.remove()
+    }
+}
+
+function removeFromLibrary(index) {
+    //deletes book from library
+    if (index > -1) {
+        myLibrary.splice(index, 1);
+      }
+    storeLibrary() 
 }
 
 function makeBookRow(book) {
@@ -105,16 +130,16 @@ function makeBookRow(book) {
             col.textContent = book[key]
         }
         row.appendChild(col)
+        
     })
     return row;
 }
 
-function render(library) {
-    console.log('rendering...')
+function render() {
     //renders data to html for display
+    console.log('rendering...')
     let parent = document.getElementById('table')
-    //alert('STOP')
-    library.forEach(function (book) {
+    myLibrary.forEach(function (book) {
         parent.appendChild(makeBookRow(book))
     })
 }
@@ -138,4 +163,8 @@ function onSubmit() {
     console.log('setting up...')
 }
 
+let myLibrary = []
+
 init()
+document.getElementsByTagName('form')[0].addEventListener('submit', onSubmit)
+render()
