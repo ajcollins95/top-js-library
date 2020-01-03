@@ -157,7 +157,9 @@ function onSubmit() {
     console.log(inputs)
     if (validSubmission(inputs)) {
         let title = inputs[0]['value'], author = inputs[1]['value'],
-            pages = inputs[2]['value'], read = inputs[3]['value'];
+            pages = inputs[2]['value'];
+        let read = (inputs[3].checked) ? 'Yes' : 'No'
+            alert(read)
             addBookToLibrary(new Book(title, author, pages, read))
     }
     console.log('setting up...')
