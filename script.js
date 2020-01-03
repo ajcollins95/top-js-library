@@ -6,9 +6,9 @@ function init() {
     if(!library) {
         console.log('First Time!')
     
-        let a = new Book('East of Eden', 'John Steinbeck', 394, 'on')
-        let b = new Book('Surprised by Joy', 'C.S. Lewis', 182, 'off')
-        let c = new Book('Man\'s Search for Meaning', 'Viktor Frankl', 246, 'on')
+        let a = new Book('East of Eden', 'John Steinbeck', 394, 'Yes')
+        let b = new Book('Surprised by Joy', 'C.S. Lewis', 182, 'No')
+        let c = new Book('Man\'s Search for Meaning', 'Viktor Frankl', 246, 'Yes')
 
         addBookToLibrary(a)
         addBookToLibrary(b)
@@ -25,10 +25,10 @@ function Book(title, author, pages, read) {
     this.title = title,
     this.author = author,
     this.pages = pages,
-    this.read = (read == 'on' || read == 'Yes') ? 'Yes' : 'No',
+    this.read = (read == 'Yes') ? 'Yes' : 'No',
 
     this.info = function() {
-        let readText = (read == 'y') ? 'already read' : 'not read yet'
+        let readText = (read == 'Yes') ? 'already read' : 'not read yet'
         return (title + ' by ' + author + ', ' + pages + ' pages, ' + readText)
     }
 
@@ -46,6 +46,7 @@ function loadStoredLibrary() {
                             bookData['pages'], bookData['read'])
         addBookToLibrary(book)
     })
+    console.log('reloaded page')
 }
 
 function storeLibrary() {
@@ -80,9 +81,8 @@ function toggleBookStatus(e) {
     //deletes book from DOM and library
     let index = e.target.classList[1]
     let row = e.target.parentNode.parentNode
-    let book = myLibrary[index]
-    book.toggle()
-    row.cells[3].innerText = book.read
+    myLibrary[index].toggle()
+    row.cells[3].innerText = myLibrary[index].read
     storeLibrary() 
 }
 
@@ -159,7 +159,6 @@ function onSubmit() {
         let title = inputs[0]['value'], author = inputs[1]['value'],
             pages = inputs[2]['value'];
         let read = (inputs[3].checked) ? 'Yes' : 'No'
-            alert(read)
             addBookToLibrary(new Book(title, author, pages, read))
     }
     console.log('setting up...')
