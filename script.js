@@ -26,14 +26,19 @@ function Book(title, author, pages, read) {
     this.author = author
     this.pages = pages 
     this.read = read == 'on' ? 'Yes' : 'No'
-    //this.index = 0
 
     this.info = function() {
         let readText = (read == 'y') ? 'already read' : 'not read yet'
         return (title + ' by ' + author + ', ' + pages + ' pages, ' + readText)
     }
- // "The Hobbit by J.R.R. Tolkien, 295 pages, not read yet"
+
+    this.toggle = function() {
+        this.read = this.read == 'Yes' ? 'No' : 'Yes' 
+    }
+ 
+ 
 }
+
 
 function addBookToLibrary(book) {
     //adds a book to the library
@@ -44,25 +49,43 @@ function addBookToLibrary(book) {
     localStorage.setItem("myLibrary",JSON.stringify(storedLibrary))
 }
 
+function addListener(book, btn) {
+    let type = btn.classList
+    if (type == 'del') {
+        //class is del
+
+    }
+    else {
+        //class is tgl
+        //console.log(book.prototype.info())
+        
+        //btn.addEventListener('click', book.toggle())
+
+    }
+}
+
 function makeBookRow(book) {
     //make new row of book data
     var row = document.createElement('tr')
     let validKeys = ['title','author','pages','read','del','toggle']
     validKeys.forEach(function (key) {
         var col = document.createElement('td')
-        if (key == 'del') {
+        if (key == 'del' || key == 'toggle') {
+            //when the key is a button
             let btn = document.createElement('button')
-            btn.classList.add('del')
-            btn.innerText = 'X'
-            col.appendChild(btn)
-        }
-        else if (key == 'toggle') {
-            let btn = document.createElement('button')
-            btn.classList.add('tgl')
-            btn.innerText = 'R'
+            if (key == 'del') {
+                btn.classList.add('del')
+                btn.innerText = 'X'
+            }
+            else if (key == 'toggle') {
+                btn.classList.add('tgl')
+                btn.innerText = 'R'
+            }
+            addListener(book, btn)
             col.appendChild(btn)
         }
         else {
+            //key is actually a key in book
             col.textContent = book[key]
         }
         row.appendChild(col)
@@ -78,20 +101,19 @@ function render() {
     //newBook.addEventListener('click', newBookClick)
     storedLibrary.forEach(function (book) {
         parent.appendChild(makeBookRow(book))
-
     })
-    
-};
+}
 
 function validSubmission(inputs) {
+    //parses data to see if submission is valid
+    //I'll let future me tackle this guy
     return 1
 }
 
 function onSubmit() {
-    
+    //Adds book to library if Add Book is clicked
     let form = document.getElementsByTagName('form')[0]
     let inputs = document.getElementsByTagName('input')
-    //console.log(window.location.href)
     console.log(inputs)
     if (validSubmission(inputs)) {
         let title = inputs[0]['value'], author = inputs[1]['value'],
@@ -99,27 +121,7 @@ function onSubmit() {
             addBookToLibrary(new Book(title, author, pages, read))
     }
     console.log('setting up...')
-    
-
 }
-
 
 init()
 render()
-
-
-
-/*
-function submission() {
-    //Adds book on submission
-    var formElement = document.getElementById("myForm");
-    let data = new FormData(formElement);
-    let book = new Book(data.get('title'), 
-                        data.get('author'), 
-                        data.get('pages'), 
-                        data.get('read'))
-    addBookToLibrary(book)
-    console.log(myLibrary)
-    alert(book.title)
-}
-*/
