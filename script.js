@@ -6,9 +6,8 @@ function init() {
     // first time loaded!
     if(!myLibrary) {
         console.log('First Time!')
-        let myLibrary = []
-        localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
-
+        let storedLibrary = []
+        localStorage.setItem("myLibrary",JSON.stringify(storedLibrary))
         let a = new Book('East of Eden', 'John Steinbeck', 394, 'on')
         let b = new Book('Surprised by Joy', 'C.S. Lewis', 182, 'off')
         let c = new Book('Man\'s Search for Meaning', 'Viktor Frankl', 246, 'on')
@@ -16,8 +15,12 @@ function init() {
         addBookToLibrary(a)
         addBookToLibrary(b)
         addBookToLibrary(c)
-        
+
+        //alert('books added')
+
     }
+    myLibrary = loadStoredLibrary()
+    render(myLibrary)
 }
 
 function Book(title, author, pages, read) {
@@ -33,20 +36,36 @@ function Book(title, author, pages, read) {
     }
 
     this.toggle = function() {
+        //alert('Monkey milk')
         this.read = this.read == 'Yes' ? 'No' : 'Yes' 
     }
- 
- 
+}
+
+function loadStoredLibrary() {
+    let storedLibrary = JSON.parse(localStorage.getItem("myLibrary"))
+    let library = []
+    storedLibrary.forEach(function (bookData) {
+        let book = new Book(bookData['title'], bookData['author'], 
+                            bookData['pages'], bookData['read'])
+        library.push(book)
+        //alert(book.info())
+    })
+    return library
+}
+
+function storeLibrary() {
+
 }
 
 
 function addBookToLibrary(book) {
     //adds a book to the library
-    let storedLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-    book.index = storedLibrary.length
-    storedLibrary.push(book);
+    let library = loadStoredLibrary()
+    book.index = library.length
+    console.log(book.info())
+    library.push(book);
     console.log(book.index)
-    localStorage.setItem("myLibrary",JSON.stringify(storedLibrary))
+    localStorage.setItem("myLibrary",JSON.stringify(library))
 }
 
 function addListener(book, btn) {
@@ -57,10 +76,7 @@ function addListener(book, btn) {
     }
     else {
         //class is tgl
-        //console.log(book.prototype.info())
-        
-        //btn.addEventListener('click', book.toggle())
-
+        btn.addEventListener('click', book.toggle)
     }
 }
 
@@ -93,13 +109,12 @@ function makeBookRow(book) {
     return row;
 }
 
-function render() {
+function render(library) {
+    console.log('rendering...')
     //renders data to html for display
     let parent = document.getElementById('table')
-    let storedLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-    //var newBook = document.getElementById('btn')
-    //newBook.addEventListener('click', newBookClick)
-    storedLibrary.forEach(function (book) {
+    //alert('STOP')
+    library.forEach(function (book) {
         parent.appendChild(makeBookRow(book))
     })
 }
@@ -124,4 +139,3 @@ function onSubmit() {
 }
 
 init()
-render()
