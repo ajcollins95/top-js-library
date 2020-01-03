@@ -38,24 +38,7 @@
                 </tr>
             </tfoot>
         </table>
-        <input type="submit" value="Submit" form="my_form" id='submit'>
-        <!--
-        <button type="button" form="my_form">Add Book</button>
-        var signupForm = document.getElementsByName('signup')[0];
-        signupForm.addEventListener('submit', function(event){
-            var requireds = document.getElementsByClassName('required');
-            for (var i = 0; i < requireds.length; i++){
-                if(requireds[i].value.length == 0){
-                    event.preventDefault(); //stop the form from submitting
-                    var errorMessage = requireds[i].getAttribute('data-message');
-                    var promptLabel = document.getElementsById(requireds[i].getAttribute('data-prompt'))[0];
-                    promptLabel.innerHTML = errorMessage;
-                }
-            }
-            event.preventDefault(); //stop the form from submitting
-            return errorMessage.length == 0;  //for older browsers, false if there's an error
-        });
-        -->
+        <input type="submit" value="Add Book" form="my_form" id='submit'>
         
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
